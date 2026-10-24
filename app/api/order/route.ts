@@ -6,7 +6,6 @@ import { getWilaya } from "@/lib/wilayas";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
-  console.log("GOOGLE_SCRIPT_URL:", process.env.GOOGLE_SCRIPT_URL ? "SET" : "MISSING");
   let body: Partial<OrderInput> & { website?: string };
   try {
     body = await req.json();
@@ -25,7 +24,10 @@ export async function POST(req: Request) {
 
   // Never trust prices from the browser: recompute from the catalogue.
   const o = body as OrderInput;
-  const wilaya = getWilaya(Number(o.wilayaCode))!;
+  const wilaya = getWilaya(Number(o.wilayaCode));
+  if (!wilaya) {
+    return NextResponse.json({ ok: false, error: "طلب غير صالح." }, { status: 422 });
+  }
   const totals = computeTotals(product, o.quantity, wilaya.code, o.deliveryType);
   const ref = `CMD-${Date.now().toString(36).toUpperCase()}`;
 
@@ -51,9 +53,17 @@ export async function POST(req: Request) {
   };
 
   const url = process.env.GOOGLE_SCRIPT_URL;
-  if (!url) {
+  if (!url || !row.secret) {
+    if (process.env.NODE_ENV === "production") {
+      // Fail loudly: never show a success screen for an order that wasn't saved.
+      console.error("[order] GOOGLE_SCRIPT_URL or SHEETS_SECRET missing in production. Ref:", ref);
+      return NextResponse.json(
+        { ok: false, error: "تعذّر تسجيل الطلب. حاول مجدداً أو راسلنا على واتساب." },
+        { status: 500 }
+      );
+    }
     // Dev mode: no Google Sheet connected yet.
-    console.log("[order] GOOGLE_SCRIPT_URL not set. Order:", { ...row, secret: "***" });
+    console.log("[order] Google Sheet not configured. Order:", { ...row, secret: "***" });
     return NextResponse.json({ ok: true, ref });
   }
 
@@ -64,14 +74,15 @@ export async function POST(req: Request) {
       body: JSON.stringify(row),
       redirect: "follow",
       cache: "no-store",
+      signal: AbortSignal.timeout(15000),
     });
     const result = await res.json().catch(() => null);
     if (!res.ok || !result?.ok) throw new Error(result?.error ?? `HTTP ${res.status}`);
   } catch (err) {
-    console.error("[order] Google Sheets error:", err);
+    console.error("[order] Google Sheets error:", err, "Ref:", ref);
     return NextResponse.json(
       { ok: false, error: "تعذّر تسجيل الطلب. حاول مجدداً أو راسلنا على واتساب." },
-      { status: 502 },
+      { status: 502 }
     );
   }
 
