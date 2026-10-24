@@ -32,6 +32,7 @@ export async function POST(req: Request) {
   if (!wilaya) {
     return NextResponse.json({ ok: false, error: "طلب غير صالح." }, { status: 422 });
   }
+
   const totals = computeTotals(product, o.quantity, wilaya.code, o.deliveryType);
   const ref = `CMD-${Date.now().toString(36).toUpperCase()}`;
 
@@ -39,15 +40,15 @@ export async function POST(req: Request) {
   const notes = (o.notes ?? "").trim().slice(0, 500);
 
   const text = [
-    `🛒 <b>طلب جديد</b> <code>${ref}</code>`,
+    `📦 <b>طلب جديد</b> <code>${ref}</code>`,
     ``,
     `👤 ${esc(o.fullName.trim())}`,
     `📞 ${esc(normalizePhone(o.phone))}`,
-    `📍 ${esc(`${wilaya.code} - ${wilaya.name} / ${wilaya.ar}`)} — ${esc(o.commune.trim())}`,
+    `📍 ${esc(`${wilaya.code} - ${wilaya.name} / ${esc(o.commune.trim())}`)}`,
     isHome ? `🏠 ${esc(o.address.trim())}` : `🏢 التسليم: المكتب`,
     ``,
-    `📦 <b>${esc(product.name)}</b>`,
-    `🎨 ${esc(o.color)}  |  📏 ${esc(o.size)}  |  ×${o.quantity}`,
+    `🛍️ <b>${esc(product.name)}</b>`,
+    `${esc(o.color)} | 📏 ${esc(o.size)} | 🔢 ${o.quantity}`,
     ``,
     `💵 المنتج: ${totals.subtotal}`,
     `🚚 التوصيل: ${totals.delivery}`,
@@ -59,14 +60,14 @@ export async function POST(req: Request) {
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!token || !chatId) {
+    console.error("[order] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing in environment variables.");
     if (process.env.NODE_ENV === "production") {
-      // Fail loudly: never show a success screen for an order that wasn't delivered.
-      console.error("[order] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID missing in production. Ref:", ref);
       return NextResponse.json(
         { ok: false, error: "تعذّر تسجيل الطلب. حاول مجدداً أو راسلنا على واتساب." },
         { status: 500 }
       );
     }
+
     // Dev mode: Telegram not configured yet.
     console.log("[order] Telegram not configured. Message would be:\n" + text);
     return NextResponse.json({ ok: true, ref });
@@ -85,8 +86,10 @@ export async function POST(req: Request) {
       cache: "no-store",
       signal: AbortSignal.timeout(15000),
     });
+
     const result = await res.json().catch(() => null);
     if (!res.ok || !result?.ok) {
+      console.error("[order] Telegram API Error Details:", result);
       throw new Error(result?.description ?? `HTTP ${res.status}`);
     }
   } catch (err) {
