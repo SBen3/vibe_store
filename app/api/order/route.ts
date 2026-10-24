@@ -6,6 +6,7 @@ import { getWilaya } from "@/lib/wilayas";
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
+  console.log("GOOGLE_SCRIPT_URL:", process.env.GOOGLE_SCRIPT_URL ? "SET" : "MISSING");
   let body: Partial<OrderInput> & { website?: string };
   try {
     body = await req.json();
