@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ ok: false, error: "طلب غير صالح." }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "طلب غير صالحة." }, { status: 400 });
   }
 
   // Honeypot: real users never fill this hidden field. Pretend success to bots.
@@ -46,32 +46,56 @@ export async function POST(req: Request) {
     delivery: totals.delivery,
     total: totals.total,
     notes: (o.notes ?? "").trim(),
-    status: "جديدة",
+    status: "جديد",
   };
 
+  // 1. Google Sheets Integration
   const url = process.env.GOOGLE_SCRIPT_URL;
-  if (!url) {
-    // Dev mode: no Google Sheet connected yet.
-    console.log("[order] GOOGLE_SCRIPT_URL not set. Order:", { ...row, secret: "***" });
-    return NextResponse.json({ ok: true, ref });
+  if (url) {
+    try {
+      await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(row),
+        redirect: "follow",
+        cache: "no-store",
+      });
+    } catch (err) {
+      console.error("[order] Google Sheets error:", err);
+    }
   }
 
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(row),
-      redirect: "follow",
-      cache: "no-store",
-    });
-    const result = await res.json().catch(() => null);
-    if (!res.ok || !result?.ok) throw new Error(result?.error ?? `HTTP ${res.status}`);
-  } catch (err) {
-    console.error("[order] Google Sheets error:", err);
-    return NextResponse.json(
-      { ok: false, error: "تعذّر تسجيل الطلب. حاول مجدداً أو راسلنا على واتساب." },
-      { status: 502 },
-    );
+  // 2. Telegram Integration
+  const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
+  const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (telegramToken && telegramChatId) {
+    const messageText = 
+      `📦 *طلب جديد: ${ref}*\n\n` +
+      `👤 *الاسم:* ${row.fullName}\n` +
+      `📞 *الهاتف:* ${row.phone}\n` +
+      `📍 *الولاية:* ${row.wilaya}\n` +
+      `🏘️ *البلدية:* ${row.commune}\n` +
+      `🚚 *نوع التوصيل:* ${row.deliveryType}\n` +
+      (row.address ? `🏠 *العنوان:* ${row.address}\n` : "") +
+      `🛍️ *المنتج:* ${row.product} (${row.color} / ${row.size}) x${row.quantity}\n` +
+      `💰 *المجموع:* ${row.total} DZD`;
+
+    try {
+      await fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: telegramChatId,
+          text: messageText,
+          parse_mode: "Markdown",
+        }),
+      });
+    } catch (err) {
+      console.error("[order] Telegram error:", err);
+    }
+  } else {
+    console.log("[order] Telegram credentials not configured.");
   }
 
   return NextResponse.json({ ok: true, ref });
