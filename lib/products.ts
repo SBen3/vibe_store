@@ -32,8 +32,8 @@ export const products: Product[] = [
     features: ["حشوة دافئة", " ستايل جميل ", "خفيف الوزن"],
    colors: [
   { name: "أبيض", hex: "#FFFFFF", image: "/white.jpg" },
-  { name: "أزرق", hex: "#1D64EC", image: "/blue.jpg" },
-  { name: "أخضر", hex: "#229C52", image: "/green.jpg" },
+  { name: "أزرق", hex: "#1D64EC", image: "/bluee.jpg" },
+  { name: "أخضر", hex: "#229C52", image: "/greenn.jpg" },
   { name: "أسود", hex: "#1A1A1A", image: "/black.jpg" },
 ],
     sizes: SIZES,
