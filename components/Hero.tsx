@@ -50,7 +50,7 @@ export function Hero() {
     <div className="animate-rise" style={{ animationDelay: "150ms" }}>
       <img
         src="/blueTr.png"
-        alt="Green Jacket"
+        alt="Blue Jacket"
         className="w-full h-auto object-cover drop-shadow-md rounded-hero opacity-90"
       />
     </div>
@@ -61,7 +61,7 @@ export function Hero() {
     <div className="animate-rise" style={{ animationDelay: "300ms" }}>
       <img
         src="/greenTr.png"
-        alt="Blue Jacket"
+        alt="Green Jacket"
         className="w-full h-auto object-cover drop-shadow-md rounded-hero opacity-90"
       />
     </div>
@@ -72,7 +72,7 @@ export function Hero() {
     <div className="animate-rise" style={{ animationDelay: "0ms" }}>
       <img
         src="/whiteTr.png"
-        alt="Main Black Jacket"
+        alt="White Jacket"
         className="w-full h-auto object-cover drop-shadow-2xl rounded-hero"
       />
     </div>
@@ -81,7 +81,7 @@ export function Hero() {
     <div className="animate-rise" style={{ animationDelay: "0ms" }}>
       <img
         src="/blackTr.png"
-        alt="Main Black Jacket"
+        alt="Black Jacket"
         className="w-full h-auto object-cover drop-shadow-2xl rounded-hero"
       />
     </div>
