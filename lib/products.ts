@@ -27,7 +27,7 @@ export const products: Product[] = [
     category: "Jackets",
     price: 3600,
     oldPrice: 4900,
-    image: "/CanadaGoose.jpg",
+    image: "/white.jpg",
     description: "جاكيت منفوخ و دافئ",
     features: ["حشوة دافئة", " ستايل جميل ", "خفيف الوزن"],
    colors: [

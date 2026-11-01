@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { formatPrice } from "@/lib/format";
 import type { Product } from "@/lib/products";
-import { JacketArt } from "./JacketArt";
 
 export function ProductCard({ product }: { product: Product }) {
   const discount = product.oldPrice

@@ -29,10 +29,10 @@ export default function HomePage() {
           <BlurShapes variant="cta" />
           <div className="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
             <h2 className="max-w-xl text-3xl font-bold leading-[1.5] md:text-4xl">
-              جاهز للشتاء؟ اختر جاكيتك وادفع عند الاستلام.
+              جاهز للشتاء؟ اختر سترتك وادفع عند الاستلام.
             </h2>
             <Button href="#collection" variant="inverse" size="lg">
-              اختر جاكيتي
+              اختر سترتك
             </Button>
           </div>
         </div>
