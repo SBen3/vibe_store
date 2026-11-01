@@ -4,22 +4,71 @@ export interface Wilaya {
   code: number;
   name: string; // French (used for carriers)
   ar: string; // Arabic (shown to customers)
+  desk: number; 
+  home: number; 
 }
 
 export const wilayas: Wilaya[] = [
-  [1, "Adrar", "أدرار"], [2, "Chlef", "الشلف"], [3, "Laghouat", "الأغواط"], [4, "Oum El Bouaghi", "أم البواقي"], [5, "Batna", "باتنة"],
-  [6, "Béjaïa", "بجاية"], [7, "Biskra", "بسكرة"], [8, "Béchar", "بشار"], [9, "Blida", "البليدة"], [10, "Bouira", "البويرة"],
-  [11, "Tamanrasset", "تمنراست"], [12, "Tébessa", "تبسة"], [13, "Tlemcen", "تلمسان"], [14, "Tiaret", "تيارت"], [15, "Tizi Ouzou", "تيزي وزو"],
-  [16, "Alger", "الجزائر"], [17, "Djelfa", "الجلفة"], [18, "Jijel", "جيجل"], [19, "Sétif", "سطيف"], [20, "Saïda", "سعيدة"],
-  [21, "Skikda", "سكيكدة"], [22, "Sidi Bel Abbès", "سيدي بلعباس"], [23, "Annaba", "عنابة"], [24, "Guelma", "قالمة"], [25, "Constantine", "قسنطينة"],
-  [26, "Médéa", "المدية"], [27, "Mostaganem", "مستغانم"], [28, "M'Sila", "المسيلة"], [29, "Mascara", "معسكر"], [30, "Ouargla", "ورقلة"],
-  [31, "Oran", "وهران"], [32, "El Bayadh", "البيض"], [33, "Illizi", "إليزي"], [34, "Bordj Bou Arréridj", "برج بوعريريج"], [35, "Boumerdès", "بومرداس"],
-  [36, "El Tarf", "الطارف"], [37, "Tindouf", "تندوف"], [38, "Tissemsilt", "تيسمسيلت"], [39, "El Oued", "الوادي"], [40, "Khenchela", "خنشلة"],
-  [41, "Souk Ahras", "سوق أهراس"], [42, "Tipaza", "تيبازة"], [43, "Mila", "ميلة"], [44, "Aïn Defla", "عين الدفلى"], [45, "Naâma", "النعامة"],
-  [46, "Aïn Témouchent", "عين تموشنت"], [47, "Ghardaïa", "غرداية"], [48, "Relizane", "غليزان"], [49, "El M'Ghair", "المغير"], [50, "El Meniaa", "المنيعة"],
-  [51, "Ouled Djellal", "أولاد جلال"], [52, "Bordj Badji Mokhtar", "برج باجي مختار"], [53, "Béni Abbès", "بني عباس"], [54, "Timimoun", "تيميمون"],
-  [55, "Touggourt", "تقرت"], [56, "Djanet", "جانت"], [57, "In Salah", "عين صالح"], [58, "In Guezzam", "عين قزام"],
-].map(([code, name, ar]) => ({ code: code as number, name: name as string, ar: ar as string }));
+  { code: 20, name: "Saïda", ar: "سعيدة", desk: 0, home: 0 },
+  { code: 16, name: "Alger", ar: "الجزائر", desk: 450, home: 850 },
+  { code: 2, name: "Chlef", ar: "الشلف", desk: 450, home: 850 },
+  { code: 9, name: "Blida", ar: "البليدة", desk: 450, home: 850 },
+  { code: 10, name: "Bouira", ar: "البويرة", desk: 450, home: 850 },
+  { code: 15, name: "Tizi Ouzou", ar: "تيزي وزو", desk: 450, home: 850 },
+  { code: 19, name: "Sétif", ar: "سطيف", desk: 450, home: 850 },
+  { code: 25, name: "Constantine", ar: "قسنطينة", desk: 450, home: 850 },
+  { code: 26, name: "Médéa", ar: "المدية", desk: 450, home: 850 },
+  { code: 31, name: "Oran", ar: "وهران", desk: 450, home: 850 },
+  { code: 34, name: "Bordj Bou Arréridj", ar: "برج بوعريريج", desk: 450, home: 850 },
+  { code: 35, name: "Boumerdès", ar: "بومرداس", desk: 450, home: 850 },
+  { code: 42, name: "Tipaza", ar: "تيبازة", desk: 450, home: 850 },
+  { code: 44, name: "Aïn Defla", ar: "عين الدفلى", desk: 450, home: 850 },
+  { code: 4, name: "Oum El Bouaghi", ar: "أم البواقي", desk: 500, home: 850 },
+  { code: 5, name: "Batna", ar: "باتنة", desk: 500, home: 850 },
+  { code: 6, name: "Béjaïa", ar: "بجاية", desk: 500, home: 850 },
+  { code: 13, name: "Tlemcen", ar: "تلمسان", desk: 500, home: 850 },
+  { code: 14, name: "Tiaret", ar: "تيارت", desk: 500, home: 850 },
+  { code: 18, name: "Jijel", ar: "جيجل", desk: 500, home: 850 },
+  { code: 21, name: "Skikda", ar: "سكيكدة", desk: 500, home: 850 },
+  { code: 22, name: "Sidi Bel Abbès", ar: "سيدي بلعباس", desk: 500, home: 850 },
+  { code: 23, name: "Annaba", ar: "عنابة", desk: 500, home: 850 },
+  { code: 27, name: "Mostaganem", ar: "مستغانم", desk: 500, home: 850 },
+  { code: 28, name: "M'Sila", ar: "المسيلة", desk: 500, home: 850 },
+  { code: 38, name: "Tissemsilt", ar: "تيسمسيلت", desk: 500, home: 850 },
+  { code: 43, name: "Mila", ar: "ميلة", desk: 500, home: 850 },
+  { code: 48, name: "Relizane", ar: "غليزان", desk: 500, home: 850 },
+  { code: 32, name: "El Bayadh", ar: "البيض", desk: 450, home: 900 },
+  { code: 17, name: "Djelfa", ar: "الجلفة", desk: 600, home: 900 },
+  { code: 24, name: "Guelma", ar: "قالمة", desk: 600, home: 900 },
+  { code: 29, name: "Mascara", ar: "معسكر", desk: 600, home: 900 },
+  { code: 40, name: "Khenchela", ar: "خنشلة", desk: 600, home: 900 },
+  { code: 41, name: "Souk Ahras", ar: "سوق أهراس", desk: 600, home: 900 },
+  { code: 46, name: "Aïn Témouchent", ar: "عين تموشنت", desk: 600, home: 950 },
+  { code: 7, name: "Biskra", ar: "بسكرة", desk: 600, home: 950 },
+  { code: 12, name: "Tébessa", ar: "تبسة", desk: 600, home: 950 },
+  { code: 36, name: "El Tarf", ar: "الطارف", desk: 700, home: 1000 },
+  { code: 34, name: "Laghouat", ar: "الأغواط", desk: 700, home: 1000 }, // (Note: Code 3 mapped from list)
+  { code: 3, name: "Laghouat", ar: "الأغواط", desk: 700, home: 1000 },
+  { code: 51, name: "Ouled Djellal", ar: "أولاد جلال", desk: 800, home: 1100 },
+  { code: 30, name: "Ouargla", ar: "ورقلة", desk: 800, home: 1100 },
+  { code: 39, name: "El Oued", ar: "الوادي", desk: 800, home: 1100 },
+  { code: 45, name: "Naâma", ar: "النعامة", desk: 800, home: 1100 },
+  { code: 47, name: "Ghardaïa", ar: "غرداية", desk: 800, home: 1100 },
+  { code: 55, name: "Touggourt", ar: "تقرت", desk: 800, home: 1100 },
+  { code: 56, name: "El M'Ghair", ar: "المغير", desk: 1000, home: 1300 },
+  { code: 57, name: "El Meniaa", ar: "المنيعة", desk: 1100, home: 1400 },
+  { code: 58, name: "Adrar", ar: "أدرار", desk: 1100, home: 1400 },
+  { code: 8, name: "Béchar", ar: "بشار", desk: 1100, home: 1400 },
+  { code: 49, name: "Timimoun", ar: "تيميمون", desk: 1100, home: 1400 },
+  { code: 54, name: "Béni Abbès", ar: "بني عباس", desk: 1100, home: 1400 },
+  { code: 52, name: "In Salah", ar: "عين صالح", desk: 1400, home: 1800 },
+  { code: 53, name: "Tamanrasset", ar: "تمنراست", desk: 1400, home: 1800 },
+  { code: 11, name: "Tindouf", ar: "تندوف", desk: 1700, home: 2000 },
+  { code: 33, name: "Illizi", ar: "إليزي", desk: 1700, home: 2000 },
+  { code: 50, name: "Bordj Badji Mokhtar", ar: "برج باجي مختار", desk: 1700, home: 2000 },
+  { code: 57, name: "Djanet", ar: "جانت", desk: 1700, home: 2000 },
+];
+
 
 export const getWilaya = (code: number) => wilayas.find((w) => w.code === code);
 
@@ -34,7 +83,9 @@ const FEES = {
   farSouth: { home: 1400, desk: 900 },
 } as const;
 
-export function deliveryFee(wilayaCode: number, type: DeliveryType): number {
-  const zone = NORTH.includes(wilayaCode) ? "north" : FAR_SOUTH.includes(wilayaCode) ? "farSouth" : "south";
-  return FEES[zone][type];
+export function deliveryFee(wilayaCode: number | string, type: "home" | "desk"): number {
+  const code = Number(wilayaCode);
+  const found = wilayas.find((w) => w.code === code);
+  if (!found) return 0;
+  return type === "home" ? found.home : found.desk;
 }

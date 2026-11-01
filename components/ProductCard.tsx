@@ -4,7 +4,9 @@ import type { Product } from "@/lib/products";
 import { JacketArt } from "./JacketArt";
 
 export function ProductCard({ product }: { product: Product }) {
-  const discount = product.oldPrice ? Math.round((1 - product.price / product.oldPrice) * 100) : 0;
+  const discount = product.oldPrice
+    ? Math.round((1 - product.price / product.oldPrice) * 100)
+    : 0;
   return (
     <Link
       href={`/product/${product.slug}`}
@@ -12,31 +14,54 @@ export function ProductCard({ product }: { product: Product }) {
     >
       <div className="relative overflow-hidden rounded-sheet bg-md-stage p-6">
         {discount > 0 && (
-          <span dir="ltr" className="absolute start-4 top-4 z-10 rounded-full bg-md-primary px-3 py-1 text-xs font-bold text-md-on-primary">
+          <span
+            dir="ltr"
+            className="absolute start-4 top-4 z-10 rounded-full bg-md-primary px-3 py-1 text-xs font-bold text-md-on-primary"
+          >
             -{discount}%
           </span>
         )}
-        <JacketArt
-          color={product.colors[0].hex}
-          label={`${product.name}، ${product.colors[0].name}`}
-          className="mx-auto w-full max-w-[220px] transition-transform duration-500 ease-md group-hover:scale-105"
-        />
+        <div className="relative mx-auto w-full max-w-[220px] aspect-square transition-transform duration-500 ease-md group-hover:scale-105">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover rounded-md"
+          />
+        </div>
       </div>
       <div className="flex flex-1 flex-col gap-3 px-1 pb-1">
         <div>
-          <p className="text-sm text-md-on-surface-variant">{product.category}</p>
+          <p className="text-sm text-md-on-surface-variant">
+            {product.category}
+          </p>
           <h3 className="text-xl font-medium">{product.name}</h3>
         </div>
         <div className="mt-auto flex items-end justify-between gap-3">
           <div>
-            <p className="text-lg font-bold text-md-accent">{formatPrice(product.price)}</p>
+            <p className="text-lg font-bold text-md-accent">
+              <span dir="ltr" className="inline-block">
+                {formatPrice(product.price)}
+              </span>
+            </p>
             {product.oldPrice && (
-              <p className="text-sm text-md-on-surface-variant line-through">{formatPrice(product.oldPrice)}</p>
+              <p className="text-lg font-bold text-md-accent">
+                <span dir="ltr" className="inline-block line-through">
+                  {formatPrice(product.oldPrice)}
+                </span>
+              </p>
             )}
           </div>
-          <ul className="flex -space-x-1 rtl:space-x-reverse" aria-label={`الألوان: ${product.colors.map((c) => c.name).join("، ")}`}>
+          <ul
+            className="flex -space-x-1 rtl:space-x-reverse"
+            aria-label={`الألوان: ${product.colors.map((c) => c.name).join("، ")}`}
+          >
             {product.colors.map((c) => (
-              <li key={c.name} title={c.name} className="h-6 w-6 rounded-full border-2 border-md-surface" style={{ backgroundColor: c.hex }} />
+              <li
+                key={c.name}
+                title={c.name}
+                className="h-6 w-6 rounded-full border-2 border-md-surface"
+                style={{ backgroundColor: c.hex }}
+              />
             ))}
           </ul>
         </div>
