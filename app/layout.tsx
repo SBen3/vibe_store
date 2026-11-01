@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#1B1C1E" };
 
+// Dark is the default for first-time visitors. Only an explicit "light" choice overrides it.
 const themeScript = `try{if(localStorage.getItem('theme')==='light'){document.documentElement.classList.remove('dark')}}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -30,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        {/* Meta Pixel Script */}
+        {/* Meta Pixel Code */}
         <Script
           id="meta-pixel"
           strategy="afterInteractive"
